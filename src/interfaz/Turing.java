@@ -25,7 +25,19 @@ public class Turing extends javax.swing.JFrame {
         jTable1.setModel(tableModel);
 
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 100, 1);
+        SpinnerNumberModel spinnerModel2 = new SpinnerNumberModel(0, 0, 100, 1);
         jSpinner1.setModel(spinnerModel);
+        jSpinner2.setModel(spinnerModel2);
+
+        jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                int columnCount = (int) jSpinner2.getValue();
+                tableModel.setColumnCount(columnCount);
+                /*for (int i = 0; i < columnCount; i++) {
+                    tableModel.setValueAt("q" + i, 0, i);
+                }*/
+            }
+        });
         jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 int rowCount = (int) jSpinner1.getValue();
@@ -35,6 +47,10 @@ public class Turing extends javax.swing.JFrame {
                 }
             }
         });
+
+        //Imprimir en Jpanel1 estados que se van creando en la tabla
+        jPanel1.add(new javax.swing.JLabel("Hola"));
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
