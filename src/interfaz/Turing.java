@@ -6,9 +6,10 @@
 package interfaz;
 
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.Vector;
 
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,40 +22,36 @@ public class Turing extends javax.swing.JFrame {
 
     public Turing() {
         initComponents();
-        //del jTextField3 se obtiene el nombre de la columna de la tabla que se va a crear y se le asigna a la tabla jTable1
-        String[] cadena = new String[1];
-        //Crear un arreglo de String para guardar el nombre de la columna y crear nueva columna en la tabla
-        cadena[0] = jTextField3.getText();
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                String[] columnNames = jTextField3.getText().split("[ ,]+");
+                tableModel.setColumnIdentifiers(new Vector<String>(Arrays.asList(columnNames)));
+            }
+        });
 
-        /*for (int i = 0; i < cadena.length; i++) {
-            tableModel.addColumn(cadena[i]);
-        }*/
-
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] {"Estado", jTextField3.getText()});
+        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{});
         jTable1.setModel(tableModel);
 
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 100, 1);
         jSpinner1.setModel(spinnerModel);
 
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tableModel.setColumnIdentifiers(new String[] {"Estado", jTextField3.getText()});
-            }
-        });
-        
+        //añade filas a la tabla de forma dinamica
         jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 int rowCount = (int) jSpinner1.getValue();
                 tableModel.setRowCount(rowCount);
-                for (int i = 0; i < rowCount; i++) {
-                    tableModel.setValueAt("q" + i, i, 0);
+                for (int i = 1; i <= rowCount; i++) {
+                    tableModel.setValueAt("q" + (i - 1), i - 1, 0);
                 }
             }
         });
 
-        //Imprimir en Jpanel1 estados que se van creando en la tabla
-        jPanel1.add(new javax.swing.JLabel("Hola"));
-        
+        //Imprimir en jPanel1 estados que se van creando en la tabla
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            String estado = (String) tableModel.getValueAt(i, 0);
+            jPanel1.add(new javax.swing.JLabel(estado));
+        }
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
