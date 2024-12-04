@@ -1,0 +1,6 @@
+Máquinas de Turing Estándar
+Ejercicio 1: Reconocimiento de cadenas binarias que terminan en 1
+
+
+Máquinas de Turing Bidireccional
+Ejercicio 1: Restadora (ejemplo: 00010 = 00)
